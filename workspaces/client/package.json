@@ -4,7 +4,8 @@
   "scripts": {
     "build": "pnpm run build:clean && pnpm run build:tsup && pnpm run build:copy",
     "build:clean": "rm -rf ./dist",
-    "build:copy": "cp -r ./assets ./dist/assets",
+    "build:copy": "mkdir -p ./dist && cp -r ./assets ./dist/assets",
+    "build:dev": "pnpm run build:clean && pnpm run build:copy && NODE_ENV=development pnpm run build:tsup --watch",
     "build:tsup": "tsup"
   },
   "dependencies": {
