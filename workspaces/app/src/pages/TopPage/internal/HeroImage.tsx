@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const _Wrapper = styled.div`
@@ -16,9 +17,31 @@ const _Image = styled.img`
 `;
 
 export const HeroImage: React.FC = () => {
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const imageRef = useRef<HTMLImageElement | null>(null);
+
+  // fix aspect
+  useEffect(() => {
+    const handleResize = () => {
+      if (!wrapperRef.current || !imageRef.current) return;
+      const aspectRatio = 16 / 9;
+      const width = wrapperRef.current.clientWidth;
+      const height = Math.floor(width / aspectRatio);
+      wrapperRef.current.style.paddingTop = `${height}px`;
+      imageRef.current.style.height = `${height}px`;
+    };
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
-    <_Wrapper>
-      <_Image src="https://assets-wsh2024.fohte.net/hero.webp" alt="Cyber TOON" />
+    <_Wrapper ref={wrapperRef}>
+      <_Image ref={imageRef} src="https://assets-wsh2024.fohte.net/hero.webp" alt="Cyber TOON" />
     </_Wrapper>
   );
 };
