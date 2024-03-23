@@ -34,7 +34,6 @@ export const HeroImage: React.FC = () => {
 
     window.addEventListener('resize', handleResize);
 
-    // イベントリスナーをクリーンアップする
     return () => {
       window.removeEventListener('resize', handleResize);
     };
