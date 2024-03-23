@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import styled from 'styled-components';
+import { NavigateNext } from '@mui/icons-material';
 
 import { SvgIcon } from '../../../features/icons/components/SvgIcon';
 import { Box } from '../../../foundation/components/Box';
@@ -92,7 +93,7 @@ const RankingCard: React.FC<Props> = ({ bookId }) => {
               <Text color={Color.Secondary} typography={Typography.NORMAL14} weight="bold">
                 この漫画を読む
               </Text>
-              <SvgIcon color={Color.Secondary} height={32} type="NavigateNext" width={32} />
+              <SvgIcon color={Color.Secondary} height={32} icon={NavigateNext} width={32} />
             </Flex>
           </Box>
         </Flex>
