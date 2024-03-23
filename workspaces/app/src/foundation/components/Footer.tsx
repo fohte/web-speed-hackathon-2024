@@ -7,7 +7,6 @@ import { COMPANY } from '../constants/Company';
 import { CONTACT } from '../constants/Contact';
 import { OVERVIEW } from '../constants/Overview';
 import { QUESTION } from '../constants/Question';
-import { TERM } from '../constants/Term';
 import { Color, Space, Typography } from '../styles/variables';
 
 import { Box } from './Box';
@@ -15,6 +14,7 @@ import { Button } from './Button';
 import { Flex } from './Flex';
 import { Spacer } from './Spacer';
 import { Text } from './Text';
+import { RemoteText } from './RemoteText';
 
 const _Button = styled(Button)`
   color: ${Color.MONO_A};
@@ -47,7 +47,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {TERM}
+          <RemoteText url="/assets/term.txt" />
         </Text>
       </_Content>,
     );
