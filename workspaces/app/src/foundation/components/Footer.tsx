@@ -3,10 +3,6 @@ import React, { useId } from 'react';
 import styled from 'styled-components';
 
 import { DialogContentAtom } from '../atoms/DialogContentAtom';
-import { COMPANY } from '../constants/Company';
-import { CONTACT } from '../constants/Contact';
-import { OVERVIEW } from '../constants/Overview';
-import { QUESTION } from '../constants/Question';
 import { Color, Space, Typography } from '../styles/variables';
 
 import { Box } from './Box';
@@ -61,7 +57,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {CONTACT}
+          <RemoteText url="/assets/contact.txt" />
         </Text>
       </_Content>,
     );
@@ -75,7 +71,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {QUESTION}
+          <RemoteText url="/assets/question.txt" />
         </Text>
       </_Content>,
     );
@@ -89,7 +85,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {COMPANY}
+          <RemoteText url="/assets/company.txt" />
         </Text>
       </_Content>,
     );
@@ -103,7 +99,7 @@ export const Footer: React.FC = () => {
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          {OVERVIEW}
+          <RemoteText url="/assets/overview.txt" />
         </Text>
       </_Content>,
     );
