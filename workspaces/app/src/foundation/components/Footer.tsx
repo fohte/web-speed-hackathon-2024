@@ -35,71 +35,18 @@ export const Footer: React.FC = () => {
 
   const updateDialogContent = useSetAtom(DialogContentAtom);
 
-  const handleRequestToTermDialogOpen = () => {
-    updateDialogContent(
-      <_Content aria-labelledby={termDialogA11yId} role="dialog">
-        <Text as="h2" color={Color.MONO_100} id={termDialogA11yId} typography={Typography.NORMAL16}>
-          利用規約
-        </Text>
-        <Spacer height={Space * 1} />
-        <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          <RemoteText url="/assets/term.txt" />
-        </Text>
-      </_Content>,
-    );
-  };
+  const setModalContent = async (id: string, title: string, contentUrl: string) => {
+    const response = await fetch(contentUrl);
+    const text = await response.text();
 
-  const handleRequestToContactDialogOpen = () => {
     updateDialogContent(
-      <_Content aria-labelledby={contactDialogA11yId} role="dialog">
-        <Text as="h2" color={Color.MONO_100} id={contactDialogA11yId} typography={Typography.NORMAL16}>
-          お問い合わせ
+      <_Content aria-labelledby={id} role="dialog">
+        <Text as="h2" color={Color.MONO_100} id={id} typography={Typography.NORMAL16}>
+          {title}
         </Text>
         <Spacer height={Space * 1} />
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          <RemoteText url="/assets/contact.txt" />
-        </Text>
-      </_Content>,
-    );
-  };
-
-  const handleRequestToQuestionDialogOpen = () => {
-    updateDialogContent(
-      <_Content aria-labelledby={questionDialogA11yId} role="dialog">
-        <Text as="h2" color={Color.MONO_100} id={questionDialogA11yId} typography={Typography.NORMAL16}>
-          Q&A
-        </Text>
-        <Spacer height={Space * 1} />
-        <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          <RemoteText url="/assets/question.txt" />
-        </Text>
-      </_Content>,
-    );
-  };
-
-  const handleRequestToCompanyDialogOpen = () => {
-    updateDialogContent(
-      <_Content aria-labelledby={companyDialogA11yId} role="dialog">
-        <Text as="h2" color={Color.MONO_100} id={companyDialogA11yId} typography={Typography.NORMAL16}>
-          運営会社
-        </Text>
-        <Spacer height={Space * 1} />
-        <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          <RemoteText url="/assets/company.txt" />
-        </Text>
-      </_Content>,
-    );
-  };
-
-  const handleRequestToOverviewDialogOpen = () => {
-    updateDialogContent(
-      <_Content aria-labelledby={overviewDialogA11yId} role="dialog">
-        <Text as="h2" color={Color.MONO_100} id={overviewDialogA11yId} typography={Typography.NORMAL16}>
-          Cyber TOONとは
-        </Text>
-        <Spacer height={Space * 1} />
-        <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL12}>
-          <RemoteText url="/assets/overview.txt" />
+          {text}
         </Text>
       </_Content>,
     );
@@ -110,19 +57,44 @@ export const Footer: React.FC = () => {
       <Flex align="flex-start" direction="column" gap={Space * 1} justify="flex-start">
         <img alt="Cyber TOON" src="/assets/cyber-toon.svg" />
         <Flex align="start" direction="row" gap={Space * 1.5} justify="center">
-          <_Button disabled={!isClient} onClick={handleRequestToTermDialogOpen}>
+          <_Button
+            disabled={!isClient}
+            onClick={async () => {
+              await setModalContent(termDialogA11yId, '利用規約', '/assets/term.txt');
+            }}
+          >
             利用規約
           </_Button>
-          <_Button disabled={!isClient} onClick={handleRequestToContactDialogOpen}>
+          <_Button
+            disabled={!isClient}
+            onClick={async () => {
+              await setModalContent(contactDialogA11yId, 'お問い合わせ', '/assets/contact.txt');
+            }}
+          >
             お問い合わせ
           </_Button>
-          <_Button disabled={!isClient} onClick={handleRequestToQuestionDialogOpen}>
+          <_Button
+            disabled={!isClient}
+            onClick={async () => {
+              await setModalContent(questionDialogA11yId, 'Q&A', '/assets/question.txt');
+            }}
+          >
             Q&A
           </_Button>
-          <_Button disabled={!isClient} onClick={handleRequestToCompanyDialogOpen}>
+          <_Button
+            disabled={!isClient}
+            onClick={async () => {
+              await setModalContent(companyDialogA11yId, '運営会社', '/assets/company.txt');
+            }}
+          >
             運営会社
           </_Button>
-          <_Button disabled={!isClient} onClick={handleRequestToOverviewDialogOpen}>
+          <_Button
+            disabled={!isClient}
+            onClick={async () => {
+              await setModalContent(overviewDialogA11yId, 'Cyber TOONとは', '/assets/overview.txt');
+            }}
+          >
             Cyber TOONとは
           </_Button>
         </Flex>
