@@ -4,9 +4,10 @@
   "scripts": {
     "build": "pnpm run build:clean && pnpm run build:tsup && pnpm run build:copy",
     "build:clean": "rm -rf ./dist",
-    "build:copy": "mkdir -p ./dist && cp -r ./assets ./dist/assets",
-    "build:dev": "pnpm run build:clean && pnpm run build:copy && NODE_ENV=development pnpm run build:tsup --watch",
-    "build:tsup": "tsup"
+    "build:copy": "mkdir -p ./dist && cp -r ./assets ./dist/",
+    "build:dev": "pnpm run build:clean && pnpm run build:copy && pnpm run build:tsup:dev",
+    "build:tsup": "tsup",
+    "build:tsup:dev": "NODE_ENV=development pnpm run build:tsup --watch ./src --watch ../admin/src --watch ../app/src"
   },
   "dependencies": {
     "@jsquash/jxl": "1.1.0",
