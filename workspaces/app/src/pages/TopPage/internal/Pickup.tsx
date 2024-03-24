@@ -1,5 +1,5 @@
 import { useId, useRef, useState, useCallback } from 'react';
-import { FeatureCard } from '../../../features/feature/components/FeatureCard';
+import { FeatureCard, FeatureCardView } from '../../../features/feature/components/FeatureCard';
 import { useFeatureList } from '../../../features/feature/hooks/useFeatureList';
 import { Box } from '../../../foundation/components/Box';
 import { Flex } from '../../../foundation/components/Flex';
@@ -19,7 +19,6 @@ export const Pickup: React.FC = () => {
   const addFeatures = () => {
     const nextIndex = currentIndex + PAGE_SIZE;
     const nextFeatures = allFeatureList.slice(nextIndex, nextIndex + PAGE_SIZE);
-    console.log({ currentIndex, nextIndex, nextFeatures });
     setFeatureList((prev) => [...prev, ...nextFeatures]);
     setCurrentIndex(nextIndex);
   };

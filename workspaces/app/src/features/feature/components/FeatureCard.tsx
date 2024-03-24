@@ -48,37 +48,38 @@ type Props = {
   wrapperRef?: React.ComponentProps<'div'>['ref'];
 };
 
-const FeatureCard: React.FC<Props> = ({ bookId, wrapperRef }) => {
-  const { data: book } = useBook({ params: { bookId } });
-
-  const imageUrl = useImage({ height: 96, imageId: book.image.id, width: 96 });
-  const authorImageUrl = useImage({ height: 32, imageId: book.author.image.id, width: 32 });
-
+export const FeatureCardView: React.FC<{
+  imageUrl?: string | undefined;
+  authorImageUrl?: string | undefined;
+  book?: ReturnType<typeof useBook>['data'];
+  bookId?: string;
+  wrapperRef?: React.ComponentProps<'div'>['ref'];
+}> = ({ imageUrl, authorImageUrl, book, bookId, wrapperRef }) => {
   return (
-    <_Wrapper href={`/books/${bookId}`}>
-      {imageUrl != null && (
-        <_ImgWrapper>
+    <_Wrapper href={bookId != null ? `/books/${bookId}` : ''}>
+      <_ImgWrapper>
+        <div ref={wrapperRef} />
+        {imageUrl != null && book != null && (
           <Image alt={book.image.alt} height={96} objectFit="cover" src={imageUrl} width={96} />
-        </_ImgWrapper>
-      )}
+        )}
+      </_ImgWrapper>
 
       <_ContentWrapper>
         <Text color={Color.MONO_100} typography={Typography.NORMAL16} weight="bold">
-          {book.name}
+          {(book != null && book.name) || 'Loading...'}
         </Text>
         <Text as="p" color={Color.MONO_100} typography={Typography.NORMAL14}>
-          {book.description}
+          {(book != null && book.description) || 'Loading...'}
         </Text>
 
         <Flex align="center" gap={Space * 1} justify="flex-end">
-          <div ref={wrapperRef} />
-          {authorImageUrl != null && (
-            <_AvatarWrapper>
+          <_AvatarWrapper>
+            {authorImageUrl != null && book != null && (
               <Image alt={book.author.name} height={32} objectFit="cover" src={authorImageUrl} width={32} />
-            </_AvatarWrapper>
-          )}
+            )}
+          </_AvatarWrapper>
           <Text color={Color.MONO_100} typography={Typography.NORMAL14}>
-            {book.author.name}
+            {(book != null && book.author.name) || 'Loading...'}
           </Text>
         </Flex>
       </_ContentWrapper>
@@ -86,9 +87,26 @@ const FeatureCard: React.FC<Props> = ({ bookId, wrapperRef }) => {
   );
 };
 
+const FeatureCard: React.FC<Props> = ({ bookId, wrapperRef }) => {
+  const { data: book } = useBook({ params: { bookId } });
+
+  const imageUrl = useImage({ height: 96, imageId: book.image.id, width: 96 });
+  const authorImageUrl = useImage({ height: 32, imageId: book.author.image.id, width: 32 });
+
+  return (
+    <FeatureCardView
+      authorImageUrl={authorImageUrl}
+      book={book}
+      bookId={bookId}
+      imageUrl={imageUrl}
+      wrapperRef={wrapperRef}
+    />
+  );
+};
+
 const FeatureCardWithSuspense: React.FC<Props> = (props) => {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<FeatureCardView />}>
       <FeatureCard {...props} />
     </Suspense>
   );
