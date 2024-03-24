@@ -14,6 +14,8 @@ const _Wrapper = styled.div`
 `;
 
 const _LinkWrapper = styled(Link)`
+  width: 318px;
+  height: 196px;
   display: grid;
   gap: ${Space * 1}px;
   background-color: ${Color.MONO_A};
