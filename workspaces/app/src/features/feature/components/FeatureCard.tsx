@@ -56,7 +56,7 @@ export const FeatureCardView: React.FC<{
   authorImageUrl?: string | undefined;
   book?: ReturnType<typeof useBook>['data'];
   wrapperRef?: React.ComponentProps<'div'>['ref'];
-}> = ({ imageUrl, authorImageUrl, book, wrapperRef }) => {
+}> = ({ imageUrl, authorImageUrl, book }) => {
   return (
     <>
       <_ImgWrapper>
@@ -99,8 +99,8 @@ const FeatureCard: React.FC<Props> = ({ bookId, wrapperRef }) => {
 
 const FeatureCardWithSuspense: React.FC<Props> = (props) => {
   return (
-    <_Wrapper>
-      <div ref={props.wrapperRef}>
+    <_Wrapper role="link">
+      <div ref={props.wrapperRef} style={{ height: '100%', display: 'flex' }}>
         <_LinkWrapper href={`/books/${props.bookId}`}>
           <Suspense fallback={<FeatureCardView />}>
             <FeatureCard {...props} />
