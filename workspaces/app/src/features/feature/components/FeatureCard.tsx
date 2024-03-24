@@ -45,9 +45,10 @@ const _AvatarWrapper = styled.div`
 
 type Props = {
   bookId: string;
+  wrapperRef?: React.ComponentProps<'div'>['ref'];
 };
 
-const FeatureCard: React.FC<Props> = ({ bookId }) => {
+const FeatureCard: React.FC<Props> = ({ bookId, wrapperRef }) => {
   const { data: book } = useBook({ params: { bookId } });
 
   const imageUrl = useImage({ height: 96, imageId: book.image.id, width: 96 });
@@ -70,6 +71,7 @@ const FeatureCard: React.FC<Props> = ({ bookId }) => {
         </Text>
 
         <Flex align="center" gap={Space * 1} justify="flex-end">
+          <div ref={wrapperRef} />
           {authorImageUrl != null && (
             <_AvatarWrapper>
               <Image alt={book.author.name} height={32} objectFit="cover" src={authorImageUrl} width={32} />
