@@ -11,7 +11,7 @@ const PAGE_SIZE = 5 as const;
 
 export const Pickup: React.FC = () => {
   const { data: allFeatureList } = useFeatureList({ query: {} });
-  const [featureList, setFeatureList] = useState<typeof allFeatureList>(allFeatureList.slice(0, 5));
+  const [featureList, setFeatureList] = useState<typeof allFeatureList>(allFeatureList.slice(0, PAGE_SIZE));
   const [currentIndex, setCurrentIndex] = useState(0);
   const pickupA11yId = useId();
   const observer = useRef<IntersectionObserver | null>(null);
