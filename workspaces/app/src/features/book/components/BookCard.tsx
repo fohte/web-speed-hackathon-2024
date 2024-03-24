@@ -14,7 +14,8 @@ const _Wrapper = styled(Link)`
   flex-direction: column;
   border-radius: ${Radius.SMALL};
   background-color: ${Color.MONO_A};
-  max-width: 192px;
+  width: 192px;
+  height: 242px;
   border: 1px solid ${Color.MONO_30};
 `;
 
@@ -72,7 +73,7 @@ const BookCard: React.FC<Props> = ({ bookId }) => {
 
 const BookCardWithSuspense: React.FC<Props> = (props) => {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<_Wrapper href=""> </_Wrapper>}>
       <BookCard {...props} />
     </Suspense>
   );

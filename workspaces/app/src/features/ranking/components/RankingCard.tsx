@@ -16,6 +16,7 @@ import { useBook } from '../../book/hooks/useBook';
 
 const _Wrapper = styled.li`
   width: 100%;
+  height: 215px;
 `;
 
 const _Link = styled(Link)`
@@ -106,7 +107,7 @@ const RankingCard: React.FC<Props> = ({ bookId }) => {
 
 const RankingCardWithSuspense: React.FC<Props> = (props) => {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<_Wrapper />}>
       <RankingCard {...props} />
     </Suspense>
   );

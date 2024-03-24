@@ -40,12 +40,12 @@ export const Today: React.FC = () => {
           {books.map((book) => (
             <BookCard key={book.id} bookId={book.id} />
           ))}
-          {hasMore() && (
-            <button onClick={addBooks} type="button">
-              もっと見る
-            </button>
-          )}
         </Flex>
+        {hasMore() && (
+          <button onClick={addBooks} type="button">
+            もっと見る
+          </button>
+        )}
       </Box>
     </Box>
   );
