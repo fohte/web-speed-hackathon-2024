@@ -3,8 +3,6 @@ import moment from 'moment-timezone';
 import { Suspense, useId } from 'react';
 
 import { BookCard } from '../../features/book/components/BookCard';
-import { FeatureCard } from '../../features/feature/components/FeatureCard';
-import { useFeatureList } from '../../features/feature/hooks/useFeatureList';
 import { RankingCard } from '../../features/ranking/components/RankingCard';
 import { useRankingList } from '../../features/ranking/hooks/useRankingList';
 import { useRelease } from '../../features/release/hooks/useRelease';
@@ -16,14 +14,13 @@ import { Color, Space, Typography } from '../../foundation/styles/variables';
 import { getDayOfWeekStr } from '../../lib/date/getDayOfWeekStr';
 
 import { CoverSection } from './internal/CoverSection';
+import { Pickup } from './internal/Pickup';
 
 const TopPage: React.FC = () => {
   const todayStr = getDayOfWeekStr(moment());
   const { data: release } = useRelease({ params: { dayOfWeek: todayStr } });
-  const { data: featureList } = useFeatureList({ query: {} });
   const { data: rankingList } = useRankingList({ query: {} });
 
-  const pickupA11yId = useId();
   const rankingA11yId = useId();
   const todayA11yId = useId();
 
@@ -33,20 +30,7 @@ const TopPage: React.FC = () => {
         <CoverSection />
       </Box>
       <Box as="main" maxWidth="100%" width="100%">
-        <Box aria-labelledby={pickupA11yId} as="section" maxWidth="100%" mt={16} width="100%">
-          <Text as="h2" color={Color.MONO_100} id={pickupA11yId} typography={Typography.NORMAL20} weight="bold">
-            ピックアップ
-          </Text>
-          <Spacer height={Space * 2} />
-          <Box maxWidth="100%" overflowX="scroll" overflowY="hidden">
-            <Flex align="stretch" direction="row" gap={Space * 2} justify="flex-start">
-              {_.map(featureList, (feature) => (
-                <FeatureCard key={feature.id} bookId={feature.book.id} />
-              ))}
-            </Flex>
-          </Box>
-        </Box>
-
+        <Pickup />
         <Spacer height={Space * 2} />
 
         <Box aria-labelledby={rankingA11yId} as="section" maxWidth="100%" width="100%">
