@@ -1,4 +1,5 @@
 import React from 'react';
+import { Component } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { ArrowBack } from '@mui/icons-material';
@@ -24,11 +25,42 @@ const _BackToTopButton = styled(Link)`
   background-color: transparent;
 `;
 
+class ErrorBoundary extends Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(_error: any) {
+    // 子コンポーネントで例外が発生すると呼ばれる。
+    // 戻り値では、コンポーネントの状態を返す必要がある。
+    return { hasError: true };
+  }
+
+  override componentDidCatch(error: any, info: any) {
+    // 発生したエラーのログを取得する
+    console.error('errorboundary', error, info);
+  }
+
+  override render() {
+    if (this.state['hasError']) {
+      // エラーがある場合は、fallbackをレンダリングする
+      return this.props['fallback'];
+    }
+    // エラーがない場合は、childrenをレンダリングする
+    return this.props['children'];
+  }
+}
+
+const withErrorBoundary = (element: any) => {
+  return <ErrorBoundary>{element}</ErrorBoundary>;
+};
+
 export const Router: React.FC = () => {
   return (
     <Routes>
       <Route element={<CommonLayout />} path={'/'}>
-        <Route element={<TopPage />} path={''} />
+        <Route element={withErrorBoundary(<TopPage />)} path={''} />
       </Route>
       <Route
         element={
@@ -45,10 +77,10 @@ export const Router: React.FC = () => {
         }
         path={'/'}
       >
-        <Route element={<BookDetailPage />} path={'books/:bookId'} />
-        <Route element={<EpisodeDetailPage />} path={'books/:bookId/episodes/:episodeId'} />
-        <Route element={<AuthorDetailPage />} path={'authors/:authorId'} />
-        <Route element={<SearchPage />} path={'search'} />
+        <Route element={withErrorBoundary(<BookDetailPage />)} path={'books/:bookId'} />
+        <Route element={withErrorBoundary(<EpisodeDetailPage />)} path={'books/:bookId/episodes/:episodeId'} />
+        <Route element={withErrorBoundary(<AuthorDetailPage />)} path={'authors/:authorId'} />
+        <Route element={withErrorBoundary(<SearchPage />)} path={'search'} />
       </Route>
     </Routes>
   );
