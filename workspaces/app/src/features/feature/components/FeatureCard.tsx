@@ -9,14 +9,17 @@ import { useImage } from '../../../foundation/hooks/useImage';
 import { Color, Radius, Space, Typography } from '../../../foundation/styles/variables';
 import { useBook } from '../../book/hooks/useBook';
 
-const _Wrapper = styled(Link)`
+const _Wrapper = styled.div`
+  flex-shrink: 0;
+`;
+
+const _LinkWrapper = styled(Link)`
   display: grid;
   gap: ${Space * 1}px;
   background-color: ${Color.MONO_A};
   padding: ${Space * 1.5}px;
   border-radius: ${Radius.SMALL};
   grid-template-columns: auto 1fr;
-  flex-shrink: 0;
   border: 1px solid ${Color.MONO_30};
 `;
 
@@ -52,13 +55,11 @@ export const FeatureCardView: React.FC<{
   imageUrl?: string | undefined;
   authorImageUrl?: string | undefined;
   book?: ReturnType<typeof useBook>['data'];
-  bookId?: string;
   wrapperRef?: React.ComponentProps<'div'>['ref'];
-}> = ({ imageUrl, authorImageUrl, book, bookId, wrapperRef }) => {
+}> = ({ imageUrl, authorImageUrl, book, wrapperRef }) => {
   return (
-    <_Wrapper href={bookId != null ? `/books/${bookId}` : ''}>
+    <>
       <_ImgWrapper>
-        <div ref={wrapperRef} />
         {imageUrl != null && book != null && (
           <Image alt={book.image.alt} height={96} objectFit="cover" src={imageUrl} width={96} />
         )}
@@ -83,7 +84,7 @@ export const FeatureCardView: React.FC<{
           </Text>
         </Flex>
       </_ContentWrapper>
-    </_Wrapper>
+    </>
   );
 };
 
@@ -93,22 +94,20 @@ const FeatureCard: React.FC<Props> = ({ bookId, wrapperRef }) => {
   const imageUrl = useImage({ height: 96, imageId: book.image.id, width: 96 });
   const authorImageUrl = useImage({ height: 32, imageId: book.author.image.id, width: 32 });
 
-  return (
-    <FeatureCardView
-      authorImageUrl={authorImageUrl}
-      book={book}
-      bookId={bookId}
-      imageUrl={imageUrl}
-      wrapperRef={wrapperRef}
-    />
-  );
+  return <FeatureCardView authorImageUrl={authorImageUrl} book={book} imageUrl={imageUrl} wrapperRef={wrapperRef} />;
 };
 
 const FeatureCardWithSuspense: React.FC<Props> = (props) => {
   return (
-    <Suspense fallback={<FeatureCardView />}>
-      <FeatureCard {...props} />
-    </Suspense>
+    <_Wrapper>
+      <div ref={props.wrapperRef}>
+        <_LinkWrapper href={`/books/${props.bookId}`}>
+          <Suspense fallback={<FeatureCardView />}>
+            <FeatureCard {...props} />
+          </Suspense>
+        </_LinkWrapper>
+      </div>
+    </_Wrapper>
   );
 };
 

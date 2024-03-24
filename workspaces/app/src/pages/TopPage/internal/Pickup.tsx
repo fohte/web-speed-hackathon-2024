@@ -1,5 +1,5 @@
 import { useId, useRef, useState, useCallback } from 'react';
-import { FeatureCard, FeatureCardView } from '../../../features/feature/components/FeatureCard';
+import { FeatureCard } from '../../../features/feature/components/FeatureCard';
 import { useFeatureList } from '../../../features/feature/hooks/useFeatureList';
 import { Box } from '../../../foundation/components/Box';
 import { Flex } from '../../../foundation/components/Flex';
@@ -47,7 +47,7 @@ export const Pickup: React.FC = () => {
       <Box maxWidth="100%" overflowX="scroll" overflowY="hidden">
         <Flex align="stretch" direction="row" gap={Space * 2} justify="flex-start">
           {featureList.map((feature, i) =>
-            featureList.length - 1 === i ? (
+            featureList.length - PAGE_SIZE === i ? (
               <FeatureCard wrapperRef={lastFeatureElementRef} key={feature.id} bookId={feature.book.id} />
             ) : (
               <FeatureCard key={feature.id} bookId={feature.book.id} />
